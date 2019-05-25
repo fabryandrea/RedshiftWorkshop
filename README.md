@@ -9,9 +9,10 @@ In this workshop you will learn how to launch a Redshift cluster, create tables 
 1. Lauching a Redshift Cluster 
 2. Installing client tool to connect to Redshift Cluster
 3. Connecting to your Redshift Cluster
-4. Loading Data on Redshift Cluster 
-5. Creating Tables using the right distribution style 
-6. Querying local tableson Redshift 
+4. Creating Tables on Redshift 
+5. Loading Data into Redshift Cluster 
+6. Creating Tables using the right distribution style 
+7. Querying local tableson Redshift 
 
 
 
@@ -55,6 +56,9 @@ JDBC URL will look similar to the JDBC URK bellow;
 Use the connection information you just captured to access your cluster. 
 
 Credentials to log into the Redshift cluster. 
+**Username:** rsuser 
+**Password:**  yourpassword (password was defined in the CloudFormation step.)
 
-Username: rsuser 
-Password:  yourpassword (password was defined in the CloudFormation step.)
+
+### 4- Creating Tables on Redshift 
+
