@@ -90,4 +90,30 @@ order by 1;
 ```
 ### 4- Loading Data into Redshift Cluster 
 
+You are now ready to load data into Redshift cluster. We will load approxemately 10GB worht of data from a S3 location. The bucket is in US-EAST-1 region. For better performance and avoid high cost transfer, make sure your Redshift cluster is in the same region as the S3 bucket.
 
+Please refer to the following link provided below to download the script that will be used to load data into Redshift using the COPY command. 
+Access the copy.sql file using the following s3 link. 
+[COPY Command - copy.sql](https://s3.amazonaws.com/reinvent-hass/code/copy.sql)
+
+After downloading the `copy.sql` file, open the file using the client tool of your choice and execute the copy statements against your Redshift cluster. 
+**`Important step`**, replace 'iam_role' (COPY command example bellow) with the IAM role assigned to your Redshift cluster in all the COPY commands in your script. 
+
+```sql
+COPY nation FROM 's3://reinvent-hass/redshiftdata//nation/nation_'
+iam_role 'arn:aws:iam::xxxxxxxxxxxx:role/MyRedshiftRole'
+gzip delimiter '|'
+IGNOREHEADER 1;
+```
+
+If you need instructions to see how to retrieve the iam_role assigned to your redshift cluster, please refer to `Redshift IAM Roles` section. 
+
+**Load times and # of rows**
+•	customer ==>  aprox 1 minute – 15M rows  
+•	lineitem ==>  aprox  10 Minutes, 600M rows   
+•	nation;  ==>  N/A 
+•	orders;  ==>  aprox 4 minutes, 150M rows 
+•	part;    ==>  aprox 1 minute, 20M rows 
+•	partsupp; ==> aprox 3 minutes, 80M rows 
+•	supplier; ==> aprox 30 seconds, 1 rows
+•	region;       5 records 
