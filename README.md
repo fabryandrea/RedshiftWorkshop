@@ -62,3 +62,24 @@ Credentials to log into the Redshift cluster.
 
 ### 4- Creating Tables on Redshift 
 
+This exercise you will create the tables in Redshift using the proper distribution keys for fact tables and large dimensions. These table are based on TCP-H star schema commonly used for database/data warehouse benchmarking. In the next exercise, we will use COPY command to load approximately 10GB worth of data from a S3. At the end of this exercise, you should see the following tables created in your Redshift cluster.
+
+The tables **lineitem** and **orders** contains the largest number of rows. 
+
+•	customer 
+•	lineitem;
+•	nation; 
+•	orders; 
+•	part; 
+•	partsupp;
+•	supplier;
+
+
+Please refer to the following link provided below to download the script that will be used to create the table definition for this exercise. 
+Access the tables.sql file using the following s3 link. 
+[Table Definition - tables.sql](https://s3.amazonaws.com/reinvent-hass/code/tables.sql)
+
+Open the file `tables.sql` using your query editor of preference. The majority of client tools provide query editor and the ability to submit the query/script to Redshift. After opening the file, examine the `CREATE TABLE` commands. You should see distribution style key for tables lineitem and orders. For all the remaining tables, the distribution style will be set to ALL as they are small dimmensions tables. 
+
+
+
