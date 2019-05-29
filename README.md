@@ -147,15 +147,17 @@ Run the query bellow to retrieve table definition details such as distribution s
 SELECT "schema", "table", diststyle, sortkey1, encoded, tbl_rows FROM SVV_TABLE_INFO
 WHERE "schema" = 'public';
 ```
-Redshift distribution Styles. 
+**Redshift distribution Styles** 
 
-**Even**
-The leader node distributes the rows across the slices in a round-robin fashion, regardless of the values in any particular column. EVEN distribution is appropriate when a table does not participate in joins or when there is not a clear choice between KEY distribution and ALL distribution. 
+**Even**  
+The leader node distributes the rows across the slices in a round-robin fashion, regardless of the values in any particular column. EVEN distribution is appropriate when a table does not participate in joins or when there is not a clear choice between KEY distribution and ALL distribution.  
 
-**Key**
-The rows are distributed according to the values in one column. The leader node places matching values on the same node slice. If you distribute a pair of tables on the joining keys, the leader node collocates the rows on the slices according to the values in the joining columns so that matching values from the common columns are physically stored together.
+
+**Key**  
+The rows are distributed according to the values in one column. The leader node places matching values on the same node slice. If you distribute a pair of tables on the joining keys, the leader node collocates the rows on the slices according to the values in the joining columns so that matching values from the common columns are physically stored together.  
+
  
-**ALL**
+**ALL**  
 A copy of the entire table is distributed to every node. Where EVEN distribution or KEY distribution place only a portion of a table's rows on each node, ALL distribution ensures that every row is collocated for every join that the table participates in.
 Query below shows the number of rows distributed across the Redshift cluster nodes and slices. For tables with distribution style key, the number of rows is distributed based on hash of the values of the column selected as key for the distribution style.  
 
@@ -172,4 +174,4 @@ and name not like 'systable%'
 group by name, stv_blocklist.slice, stv_tbl_perm.rows
 order by 3 desc;
 ```
-Please note that the tables `orders`, `lineitem`, `partsupp` were defined as distribution style key therefore, the rows are split equally across the slices on the Redshift clusters. Whereas tables `region`, `nation`, `supplier`, and `customer` were defined with distribution style all. It means there is a copy of the table on every node in the cluster. Distribution style ALL is used for small medium dimensions that join large fact tables that are using key distribution style. 
+Please note that the tables `orders`, `lineitem`, `partsupp` were defined as distribution style key therefore, the rows are split equally across the slices on the Redshift clusters. Whereas tables `region`, `nation`, `supplier`, and `customer` were defined with distribution style all. It means there is a copy of the table on every node in the cluster. Distribution style ALL is used for small or medium dimensions that join large fact tables that are using key distribution style. 
