@@ -66,13 +66,13 @@ This exercise you will create the tables in Redshift using the proper distributi
 
 The tables **lineitem** and **orders** contains the largest number of rows. 
 
-•	customer 
-•	lineitem;
-•	nation; 
-•	orders; 
-•	part; 
-•	partsupp;
-•	supplier;
+•	customer   
+•	lineitem  
+•	nation  
+•	orders  
+•	part  
+•	partsupp  
+•	supplier  
 
 
 Please refer to the following link provided below to download the script that will be used to create the table definition for this exercise. 
@@ -81,5 +81,13 @@ Access the tables.sql file using the following s3 link.
 
 Open the file `tables.sql` using your query editor of preference. The majority of client tools provide query editor and the ability to submit the query/script to Redshift. After opening the file, examine the `CREATE TABLE` commands. You should see distribution style key for tables lineitem and orders. For all the remaining tables, the distribution style will be set to ALL as they are small dimmensions tables. 
 
+When you finish executing the `CREATE TABLE` script run, the following command to check the tables created in Redshift. Look for the columns `diststyle` for the distribution style defined for your table. 
+
+```sql
+select "table", encoded, diststyle, sortkey1, skew_sortkey1, skew_rows
+from svv_table_info
+order by 1;
+```
+### 4- Loading Data into Redshift Cluster 
 
 
