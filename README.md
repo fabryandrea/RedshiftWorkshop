@@ -110,10 +110,28 @@ If you need instructions to see how to retrieve the iam_role assigned to your re
 
 **Load times and # of rows**
 •	customer ==>  aprox 1 minute – 15M rows  
-•	lineitem ==>  aprox  10 Minutes, 600M rows   
-•	nation;  ==>  N/A 
-•	orders;  ==>  aprox 4 minutes, 150M rows 
-•	part;    ==>  aprox 1 minute, 20M rows 
-•	partsupp; ==> aprox 3 minutes, 80M rows 
-•	supplier; ==> aprox 30 seconds, 1 rows
-•	region;       5 records 
+•	lineitem ==>  aprox  10 Minutes, 600M rows  
+•	nation;  ==>  N/A  
+•	orders;  ==>  aprox 4 minutes, 150M rows   
+•	part;    ==>  aprox 1 minute, 20M rows  
+•	partsupp; ==> aprox 3 minutes, 80M rows  
+•	supplier; ==> aprox 30 seconds, 1 rows  
+•	region;       5 records  
+
+Execute each COPY command individually. Tables `lineitem` and `orders` will take longer. 
+You can monitor the load status by either using AWS Console or running a query on **`STV_LOAD_STATE`** table. 
+
+```sql
+select slice , bytes_loaded, bytes_to_load , pct_complete from stv_load_state where query = pg_last_copy_id();
+```
+
+| slice | bytes_loaded | bytes_to_load | pct_complete 
+|-------|--------------|---------------|--------------
+|     2 |            0 |             0 |            0
+|     3 |     12840898 |      39104640 |           32
+(2 rows)
+
+
+
+
+
