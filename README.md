@@ -231,3 +231,39 @@ GROUP BY l_returnflag,
 ORDER BY l_returnflag, 
          l_linestatus;
 ```
+
+The following Query join tables `orders`, `lineitem` (both using distribution style key), and customers distribution style ALL. 
+
+
+```sql
+SELECT   l_orderkey, 
+         SUM(l_extendedprice * (1 - l_discount)) AS revenue, 
+         o_orderdate, 
+         o_shippriority 
+FROM     customer, 
+         orders, 
+         lineitem 
+WHERE    c_mktsegment = 'HOUSEHOLD' 
+AND      c_custkey = o_custkey 
+AND      l_orderkey = o_orderkey 
+AND      o_orderdate < DATE '1995-03-02' 
+AND      l_shipdate >  DATE '1995-03-02' 
+GROUP BY l_orderkey, 
+         o_orderdate, 
+         o_shippriority 
+ORDER BY revenue DESC, 
+         o_orderdate limit 10;
+```
+
+Now we are going to track query execution using Amazon Redshift System tables and views; 
+There are two types of system tables: STL and STV tables.
+STL tables are generated from logs that have been persisted to disk to provide a history of the system. STV tables are virtual tables that contain snapshots of the current system data.
+
+Run the query bellow to identify the top 5 queries you recently ran on your Redshift Cluster. 
+
+```sql
+select query, trim(querytxt) as sqlquery
+from stl_query
+order by query desc limit 5;
+```
+
