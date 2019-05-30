@@ -156,12 +156,11 @@ The leader node distributes the rows across the slices in a round-robin fashion,
 **Key**  
 The rows are distributed according to the values in one column. The leader node places matching values on the same node slice. If you distribute a pair of tables on the joining keys, the leader node collocates the rows on the slices according to the values in the joining columns so that matching values from the common columns are physically stored together.  
 
- 
 **ALL**  
 A copy of the entire table is distributed to every node. Where EVEN distribution or KEY distribution place only a portion of a table's rows on each node, ALL distribution ensures that every row is collocated for every join that the table participates in.
 Query below shows the number of rows distributed across the Redshift cluster nodes and slices. For tables with distribution style key, the number of rows is distributed based on hash of the values of the column selected as key for the distribution style.  
 
-Query below shows the number of rows distributed across the Redshift cluster nodes and slices. For tables with distribution style key, the number of rows is distributed based on hash of the values of the column selected as key for the distribution style.  
+The query below shows the number of rows distributed across the Redshift cluster nodes and slices. For tables with distribution style key, the number of rows is distributed based on hash of the values of the column selected as key for the distribution style.  
 
 
 ```sql
@@ -175,3 +174,60 @@ group by name, stv_blocklist.slice, stv_tbl_perm.rows
 order by 3 desc;
 ```
 Please note that the tables `orders`, `lineitem`, `partsupp` were defined as distribution style key therefore, the rows are split equally across the slices on the Redshift clusters. Whereas tables `region`, `nation`, `supplier`, and `customer` were defined with distribution style all. It means there is a copy of the table on every node in the cluster. Distribution style ALL is used for small or medium dimensions that join large fact tables that are using key distribution style. 
+
+
+Now we will submit some queries on Redshift and use some of the System tables and views to track queries that are currently executing as well as query history. 
+
+The following query access data on multiple nodes/slice based on the distribution key and join
+the small dimensions that are local on every node. The Leader compiles the query and send to nodes for parallel processing. Each node process the query based on the portion of data stored on local node and join with the dimensions.
+
+```sql
+select s_acctbal, s_name, n_name, p_partkey, p_mfgr, s_address, s_phone, s_comment
+from
+part, supplier, partsupp, nation, region
+where
+    p_partkey = ps_partkey
+    and s_suppkey = ps_suppkey
+    and p_size = 5
+    and p_type like '%TIN'
+    and s_nationkey = n_nationkey
+    and n_regionkey = r_regionkey
+    and r_name = 'AFRICA'
+    and ps_supplycost = (
+        select
+            min(ps_supplycost)
+                from partsupp, supplier, nation, region
+                where
+                    p_partkey = ps_partkey
+                    and s_suppkey = ps_suppkey
+                    and s_nationkey = n_nationkey
+                    and n_regionkey = r_regionkey
+                    and r_name = 'AFRICA')
+order by
+s_acctbal desc,
+n_name,
+s_name,
+p_partkey
+limit 100;
+```
+
+The following query access the table lineitem and process some aggregations. The table lineitem is using `key` distribution style, and has approximately 250M of rows. Since there is no join with additional tables, the aggregation is processed on each individual slice and the results are returned to the leader node. 
+
+```sql
+SELECT   l_returnflag, 
+         l_linestatus, 
+         Sum(l_quantity)                                                                     AS sum_qty,
+         Sum(l_extendedprice)                                                                AS sum_base_price,
+         Sum(l_extendedprice                * (1 - l_discount))::decimal(38,2)               AS sum_disc_price,
+         sum(l_extendedprice::decimal(38,2) * (1 - l_discount) * (1 + l_tax))::decimal(38,2) AS sum_charge,
+         avg(l_quantity)                                                                     AS avg_qty,
+         avg(l_extendedprice)                                                                AS avg_price,
+         avg(l_discount)                                                                     AS avg_disc,
+         count(*)                                                                            AS count_order
+FROM     lineitem 
+WHERE    l_shipdate <= cast ( date '1998-12-01' - interval '66 days' AS date ) 
+GROUP BY l_returnflag, 
+         l_linestatus 
+ORDER BY l_returnflag, 
+         l_linestatus;
+```
