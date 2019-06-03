@@ -259,11 +259,76 @@ Now we are going to track query execution using Amazon Redshift System tables an
 There are two types of system tables: STL and STV tables.
 STL tables are generated from logs that have been persisted to disk to provide a history of the system. STV tables are virtual tables that contain snapshots of the current system data.
 
+There are two types of views SVL and SVV. System views contains a subset of data found in several of the STL and STV system tables. 
+
 Run the query bellow to identify the top 5 queries you recently ran on your Redshift Cluster. 
 
 ```sql
 select query, trim(querytxt) as sqlquery
 from stl_query
 order by query desc limit 5;
+```
+
+If you want to check on query execution metrics information, you can query the system table log **`STL_QUERY_METRICS`** which contains infomration such as,  number of rows processed, CPU usage, input/output, and disk use, for queries that have completed
+
+```SQL
+SELECT userid, 
+       service_class, 
+       query, 
+       segment, 
+       step_type, 
+       starttime, 
+       slices, 
+       rows, 
+       cpu_time, 
+       blocks_read, 
+       run_time, 
+       blocks_to_disk, 
+       query_scan_size 
+FROM   STL_QUERY_METRICS 
+```
+
+```sql
+/* Find Top Queries by Duration, Number of reads, Memory to Disk */
+SELECT querytxt, MAX(CPU_TIME) AS cpu_time_micro, MAX(ROWS) AS ROWS, MAX(BLOCKS_READ)AS blocks_read, 
+MAX(blocks_to_disk)as MB_to_Disk, SUM(run_time/1000000)as time_sec, SUM((run_time/1000000)/60)as time_minutes  FROM STL_QUERY AS Q 
+JOIN STL_QUERY_METRICS AS M
+ON Q.query = M.query 
+GROUP BY querytxt
+ORDER BY time_sec desc 
+```
+
+To view metrics for active queries that are currently running, see the **`STV_QUERY_METRICS`** system view instead.
+
+
+You can use the SVL_QUERY_REPORT system view for advanced query troubleshooting, such as identifying memory usage, data skew, disk spills as well as check for execution details on each step. 
+
+Run the a query on STL_QUERY to identify the most recent queries you have ran and copy the query_ID for the query you want more details. 
+
+```sql
+select query, trim(querytxt) as sqlquery
+from stl_query
+order by query desc limit 5;
+```
+
+|query |    sqlquery
+|------|--------------------------------------------------
+|129 | select query, trim(querytxt) from stl_query order by query;
+|128 | select node from stv_disk_read_speeds;
+|127 | select system_status from stv_gui_status
+|126 | select * from systable_topology order by slice
+|125 | load global dict registry
+(5 rows)
+
+
+```sql
+select query, segment, step, max(rows), min(rows),
+case when sum(rows) > 0
+then ((cast(max(rows) -min(rows) as float)*count(rows))/sum(rows))
+else 0 end
+from svl_query_report
+where query = 279
+group by query, segment, step
+order by segment, step;
 ```
 
