@@ -12,6 +12,7 @@ In this workshop you will learn how to launch a Redshift cluster, create tables 
 4. Creating Tables on Redshift 
 5. Loading Data into Redshift Cluster 
 6. Querying local tables on Redshift 
+7. Querying S3 Data Lake using Redshift Spectrum 
 
 
 
@@ -303,7 +304,7 @@ To view metrics for active queries that are currently running, see the **`STV_QU
 
 You can use the SVL_QUERY_REPORT system view for advanced query troubleshooting, such as identifying memory usage, data skew, disk spills as well as check for execution details on each step. 
 
-Run the a query on STL_QUERY to identify the most recent queries you have ran and copy the query_ID for the query you want more details. 
+Run the a query on **`STL_QUERY`** to identify the most recent queries you have ran and copy the query_ID for the query you want more details. You are going to use in the **`svl_query_report`** next. 
 
 ```sql
 select query, trim(querytxt) as sqlquery
@@ -331,4 +332,10 @@ where query = 279
 group by query, segment, step
 order by segment, step;
 ```
+
+### 7- Querying S3 Data Lake using Redshift Spectrum 
+
+Now let's setup the Redshift Cluster to query historical Data on S3 Data Lake with Redshift Spectrum. 
+
+In this exercise, we will leverage external tables to query data that is stored in Amazon S3. The external tables are created in the AWs Glue. You also have an option to store external tables using Apache Hive Metastore. 
 
