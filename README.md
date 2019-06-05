@@ -13,6 +13,7 @@ In this workshop you will learn how to launch a Redshift cluster, create tables 
 5. Loading Data into Redshift Cluster 
 6. Querying local tables on Redshift 
 7. Querying S3 Data Lake using Redshift Spectrum 
+8. Redshift IAM Role
 
 
 
@@ -44,7 +45,7 @@ You will need to install a client tool to connect on the Redshift Cluster. The f
 On AWS console main page, go to Services and select Amazon Redshift. Alternatively, type Redshift in the search field and choose Amazon Redshift when you see in the results returned.
 In the Redshift dashboard, choose Clusters and you should see your cluster listed and the current status. Choose your cluster to access Redshift cluster details and connections information. 
 
---TODO.. Add a picture of the AWs Console 
+![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/Redshift_WS_Console.jpg "Logo Title Text 1")
 
 Copy the endpoint details and save it to connect on the cluster and run queries. `redshiftlab.c3jaizpfphoi.us-east-1.redshift.amazonaws.com:5439`
 
@@ -339,3 +340,27 @@ Now let's setup the Redshift Cluster to query historical Data on S3 Data Lake wi
 
 In this exercise, we will leverage external tables to query data that is stored in Amazon S3. The external tables are created in the AWs Glue. You also have an option to store external tables using Apache Hive Metastore. 
 
+We will perform the following activities; 
+
+1 - Create external schema 
+2 - Create a clawler Job that will be used to identify tables automactically on S3. 
+
+Log in to the AWS Console. On AWS console main page, go to Services and select AWS Glue or type Glue in the search field. Choose AWS Glue when you see in the results. 
+
+1 - On AWS Glue console choose Databases and Add Database option. 
+
+![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/gluedatabase.jpg "Logo Title Text 1")
+
+
+
+Alternatively, you can execute the following command using the client you are using to execute queries on Redshift. 
+
+
+```sql
+create external schema spectrum_schema from data catalog 
+database 'spectrum_db' 
+iam_role 'arn:aws:iam::123456789012:role/MySpectrumRole' --Copy the IAM role you assigned to your Redshift Cluster. 
+create external database if not exists;
+``` 
+
+If you need help finding the IAM Role assigned to your cluster, refer to the **`Redshift IAM Role`** section in this Document. 
