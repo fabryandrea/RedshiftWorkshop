@@ -343,7 +343,7 @@ In this exercise, we will leverage external tables to query data that is stored 
 We will perform the following activities; 
 
 
-1 - Create external database and schema 
+1 - Create external database and schema  
 2 - Create a clawler Job that will be used to identify tables automactically on S3. 
 
 #### Create external database and schema 
@@ -367,8 +367,27 @@ create external database if not exists;
 If you need help finding the IAM Role assigned to your cluster, refer to the **`Redshift IAM Role`** section in this Document. 
 
 
-#### Create a clawler Job that will be used to identify tables automactically on S3. 
+#### Create a clawler Job that will be used to identify tables automactically on S3.  
 
+In the AWS Glue console, choose Crawlers on the left side meny and then **`Add crawler`**
+
+
+![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/addcrawlerJob.jpg "Add Crawler")
+
+![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/crawlername.jpg "Crawler Name")
+
+![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/crawlersource.jpg "Crawler Source")
+
+![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/crawlerdatastore.jpg "Crawler Data Store")
+
+
+In the `Add another data store` click next: 
+
+Choose an IAM role 
+
+![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/glueIAMRole.jpg "Create IAM role")
+
+On `Create a schedule for this crawler` choose the option `Run on demand` and choose `Next`
 
 ### 8- Redshift IAM Role
 
@@ -377,3 +396,11 @@ In the Redshift Dashboard, go to Cluster on the left upper side and choose the R
 ![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/IAMrole2.jpg "See IAM roles option")
 
 ![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/IAMrole.jpg "See IAM roles option")
+
+In `Configure the crawler's output`, choose the Database created in the previous step and leave the other options default. Choose Next 
+
+![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/crawlerOutput.jpg "See IAM roles option")
+
+
+In the Review all the steps, choose `Finish`
+
