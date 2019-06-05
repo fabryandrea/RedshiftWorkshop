@@ -342,8 +342,11 @@ In this exercise, we will leverage external tables to query data that is stored 
 
 We will perform the following activities; 
 
-1 - Create external schema 
+
+1 - Create external database and schema 
 2 - Create a clawler Job that will be used to identify tables automactically on S3. 
+
+#### Create external database and schema 
 
 Log in to the AWS Console. On AWS console main page, go to Services and select AWS Glue or type Glue in the search field. Choose AWS Glue when you see in the results. 
 
@@ -352,9 +355,7 @@ Log in to the AWS Console. On AWS console main page, go to Services and select A
 ![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/gluedatabase.jpg "Database Name")
 
 
-
 Alternatively, you can execute the following command using the client you are using to execute queries on Redshift. 
-
 
 ```sql
 create external schema spectrum_schema from data catalog 
@@ -366,10 +367,13 @@ create external database if not exists;
 If you need help finding the IAM Role assigned to your cluster, refer to the **`Redshift IAM Role`** section in this Document. 
 
 
+#### Create a clawler Job that will be used to identify tables automactically on S3. 
+
+
 ### 8- Redshift IAM Role
 
 In the Redshift Dashboard, go to Cluster on the left upper side and choose the Redshift cluster you created previosly to see more options. 
 
 ![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/IAMrole2.jpg "See IAM roles option")
 
-![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/IAMrole2.jpg "See IAM roles option")
+![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/IAMrole.jpg "See IAM roles option")
