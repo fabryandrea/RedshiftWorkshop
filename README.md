@@ -349,7 +349,7 @@ Log in to the AWS Console. On AWS console main page, go to Services and select A
 
 1 - On AWS Glue console choose Databases and Add Database option. 
 
-![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/gluedatabase.jpg "Logo Title Text 1")
+![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/gluedatabase.jpg "Database Name")
 
 
 
@@ -364,3 +364,12 @@ create external database if not exists;
 ``` 
 
 If you need help finding the IAM Role assigned to your cluster, refer to the **`Redshift IAM Role`** section in this Document. 
+
+
+### 8- Redshift IAM Role
+
+In the Redshift Dashboard, go to Cluster on the left upper side and choose the Redshift cluster you created previosly to see more options. 
+
+![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/IAMrole2.jpg "See IAM roles option")
+
+![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/IAMrole2.jpg "See IAM roles option")
