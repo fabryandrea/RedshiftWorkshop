@@ -374,20 +374,41 @@ In the AWS Glue console, choose Crawlers on the left side meny and then **`Add c
 
 ![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/addcrawlerJob.jpg "Add Crawler")
 
+Specify the **`Crawler Name`**
+
 ![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/crawlername.jpg "Crawler Name")
+
+On Specify crawler source type, choose Data Stores
 
 ![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/crawlersource.jpg "Crawler Source")
 
+On **`Add a data store`** 
+
+
 ![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/crawlerdatastore.jpg "Crawler Data Store")
 
-
 In the `Add another data store` click next: 
+
+In **`Configure the crawler's output`**, choose the Database created in the previous step and leave the other options default. Choose Next 
+
+![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/crawlerOutput.jpg "See IAM roles option")
+
+
+In the Review all the steps, choose **`Finish`**
 
 Choose an IAM role 
 
 ![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/glueIAMRole.jpg "Create IAM role")
 
-On `Create a schedule for this crawler` choose the option `Run on demand` and choose `Next`
+On **`Create a schedule for this crawler`** choose the option **`Run on demand`** and choose **`Next`**
+
+
+
+#### #### Run the crawler Job. 
+
+
+
+
 
 ### 8- Redshift IAM Role
 
@@ -397,10 +418,5 @@ In the Redshift Dashboard, go to Cluster on the left upper side and choose the R
 
 ![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/IAMrole.jpg "See IAM roles option")
 
-In `Configure the crawler's output`, choose the Database created in the previous step and leave the other options default. Choose Next 
 
-![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/crawlerOutput.jpg "See IAM roles option")
-
-
-In the Review all the steps, choose `Finish`
 
