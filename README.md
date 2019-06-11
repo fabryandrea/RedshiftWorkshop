@@ -384,10 +384,13 @@ On Specify crawler source type, choose Data Stores
 
 On **`Add a data store`** 
 
-
 ![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/crawlerdatastore.jpg "Crawler Data Store")
 
-In the `Add another data store` click next: 
+In the `Add another data store` left the option "No" selected and choose next: 
+
+In the `Choose an IAM role` choose the option Create an IAM role. Specicy the role name in the text field.  
+
+![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/glueIAMRole.jpg "Create IAM role")
 
 In **`Configure the crawler's output`**, choose the Database created in the previous step and leave the other options default. Choose Next 
 
@@ -396,9 +399,7 @@ In **`Configure the crawler's output`**, choose the Database created in the prev
 
 In the Review all the steps, choose **`Finish`**
 
-Choose an IAM role 
 
-![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/glueIAMRole.jpg "Create IAM role")
 
 On **`Create a schedule for this crawler`** choose the option **`Run on demand`** and choose **`Next`**
 
@@ -417,17 +418,3 @@ In the Redshift Dashboard, go to Cluster on the left upper side and choose the R
 ![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/IAMrole2.jpg "See IAM roles option")
 
 ![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/IAMrole.jpg "See IAM roles option")
-
-
-ijfdsflsdf;lsdkfl;sdkfl;sdfjsdjksdfjksdkgjfjgjksdjgksdjgs
-dgsdkngl;sdgklsdlkgslkdgkasdkglsdak'gsad
-gkasdgk';asdgk;'sd
-
-sdfafaeffasf
-af
-a
-f
-af
-af
-assf
-a
