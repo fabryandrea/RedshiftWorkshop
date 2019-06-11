@@ -419,4 +419,15 @@ In the Redshift Dashboard, go to Cluster on the left upper side and choose the R
 ![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/IAMrole.jpg "See IAM roles option")
 
 
+ijfdsflsdf;lsdkfl;sdkfl;sdfjsdjksdfjksdkgjfjgjksdjgksdjgs
+dgsdkngl;sdgklsdlkgslkdgkasdkglsdak'gsad
+gkasdgk';asdgk;'sd
 
+sdfafaeffasf
+af
+a
+f
+af
+af
+assf
+a
