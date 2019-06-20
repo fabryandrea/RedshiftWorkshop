@@ -386,26 +386,47 @@ On **`Add a data store`**
 
 ![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/crawlerdatastore.jpg "Crawler Data Store")
 
-In the `Add another data store` left the option "No" selected and choose next: 
+In the **`Add another data store`** left the option **`No`** selected and choose next: 
 
-In the `Choose an IAM role` choose the option Create an IAM role. Specicy the role name in the text field.  
+In the **`Choose an IAM role`** choose the option **`Create an IAM role`**. Specicy the role name in the text field.  
 
 ![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/glueIAMRole.jpg "Create IAM role")
 
-In **`Configure the crawler's output`**, choose the Database created in the previous step and leave the other options default. Choose Next 
+In **`Configure the crawler's output`**, choose the Database created in the previous step and leave the other options default. Choose **`Next`** 
 
 ![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/crawlerOutput.jpg "See IAM roles option")
 
-
 In the Review all the steps, choose **`Finish`**
-
 
 
 On **`Create a schedule for this crawler`** choose the option **`Run on demand`** and choose **`Next`**
 
 
 
-#### #### Run the crawler Job. 
+#### Run the crawler Job. 
+
+Select the Job name using the check box and choose Run Crawler. 
+
+![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/runcrawler.jpg.jpg "Run crawler Job")
+
+Wait a few minutes for the crawler to read the files and build the external tables that will be used later in Redshift. 
+
+Notice that two tables have been added by the crawler in the database 
+
+![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/addedtables.jpg "Added Tables")
+
+Choose Tables on the left-hand side and review the tables added. Hit the refresh button in case they don’t show-up. 
+
+![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/checktables.jpg "Check added Tables")
+
+Choose one of the tables to see the schema definition and properties. 
+
+On the same screen on right top corner, choose `View Partitions` to view the partitions detected by the crawler. Notice the year and month matches with the S3 partitioning using the field 0_yearmonth and the values year and month. This is hive style partitioning and it will help reduce the number of files Redshift Spectrum has to scan when querying the data lake. 
+
+
+
+![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/partitions.jpg "Review Partitions")
+
 
 
 
