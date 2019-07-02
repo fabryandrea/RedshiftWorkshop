@@ -23,8 +23,11 @@ In this exercise, we will launch a Redshift Cluster in your account. Log into yo
 
 Alternatively, you can use a CloudFormation teample and skip this step in case you are already familiar with lauching a Redshift.
 For better performance and avoid high cost transfer between Amazon Redshift cluster  and S3, make sure you are in the US-EAST-1 region.
-Cluster. In your AWS Console, go to CloudFormation. In the CloudFormation, choose Create Stack. In the Select Template choose to specify an Amazon S3 template URL and use the following S3 URL to launch a Redshift Cluster. 
-[https://s3.amazonaws.com/reinvent-hass/code/redshiftTemplate.json](https://s3.amazonaws.com/reinvent-hass/code/redshiftTemplate.json)
+
+In your AWS Console, go to CloudFormation. In the CloudFormation, choose Create Stack. In the Select Template choose to specify an Amazon S3 template URL and use the following S3 URL to launch a Redshift Cluster. 
+
+To launch this cluster and configure security automatically using cloud formation, use the following link and skip ahead to [Configure Client Tool](#configure-client-tool).  
+[![Launch](../images/cloudformation-launch-stack.png)](https://console.aws.amazon.com/cloudformation/home?#/stacks/new?stackName=ImmersionLab1&templateURL=https://s3.amazonaws.com/reinvent-hass/code/redshiftTemplate.json)
 
 On Specify Details, provide the Stack Name and Parameters required to launch the Redshift Cluster. After providing the Parameters, choose next. 
 
@@ -432,11 +435,13 @@ On the same screen on right top corner, choose `View Partitions` to view the par
 
 #### Querying Data on S3 using Redshift Spectrum
 
-Access the script in this session in following location to help with COPY and PASTE. 
+Open the Redshift Client tool of your choice you installed in the previous steps. 
+
+For this Lab, you can use the scripts in following location to avoid COPY and PASTE. 
 [Spectrum Queries](https://s3.amazonaws.com/reinvent-hass/code/SpectrumQueries.sql)
 
 
-Query below will return the external schemas and objects. We haven't created the external schema yet. The result expected should be 0 rows.
+Please execute the following query to return the external schemas and objects. We haven't created the external schema yet. The result expected should be 0 rows.
 
 ```SQL
 /* Query will return external tables */ 
