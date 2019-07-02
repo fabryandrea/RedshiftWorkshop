@@ -409,7 +409,7 @@ In the Review all the steps, choose **`Finish`**
 
 Select the Job name using the check box and choose Run Crawler. 
 
-![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/runcrawler.jpg.jpg "Run crawler Job")
+![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/runcrawler.jpg "Run crawler Job")
 
 Wait a few minutes for the crawler to read the files and build the external tables that will be used later in Redshift. 
 
