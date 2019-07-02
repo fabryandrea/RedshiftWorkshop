@@ -21,8 +21,10 @@ In this workshop you will learn how to launch a Redshift cluster, create tables 
 
 In this exercise, we will launch a Redshift Cluster in your account. Log into your AWS account using your credentials. After logging in; On AWS console main page, go to Services and select Amazon Redshift. Alternatively, type Redshift in the search field and choose Amazon Redshift when you see in the results returned. 
 
-Alternatively, you can use a CloudFormation teample and skip this step in case you are already familiar with lauching a Redshift Cluster. In your AWS Console, go to CloudFormation. In the CloudFormation, choose Create Stack. In the Select Template choose to specify an Amazon S3 template URL and use the following S3 URL to launch a Redshift Cluster. 
-[https://s3.amazonaws.com/bigdatalabshass/code/redshiftTemplate.json](https://s3.amazonaws.com/bigdatalabshass/code/redshiftTemplate.json)
+Alternatively, you can use a CloudFormation teample and skip this step in case you are already familiar with lauching a Redshift.
+For better performance and avoid high cost transfer between Amazon Redshift cluster  and S3, make sure you are in the US-EAST-1 region.
+Cluster. In your AWS Console, go to CloudFormation. In the CloudFormation, choose Create Stack. In the Select Template choose to specify an Amazon S3 template URL and use the following S3 URL to launch a Redshift Cluster. 
+[https://s3.amazonaws.com/reinvent-hass/code/redshiftTemplate.json](https://s3.amazonaws.com/reinvent-hass/code/redshiftTemplate.json)
 
 On Specify Details, provide the Stack Name and Parameters required to launch the Redshift Cluster. After providing the Parameters, choose next. 
 
@@ -33,7 +35,7 @@ In the Review, check to acknowledge the creation of IAM resources and click crea
 ### 2- Installing client tool to connect to Redshift Cluster 
 
 
-You will need to install a client tool to connect on the Redshift Cluster. The following are some tools suggested. Please feel free to use any tool you prefer.
+You will need to install a client tool to be able to connect on the Redshift Cluster. The following client tools are suggested for this Lab. Please feel free to use any tool you prefer. If you are familiar with Postgres command line client tool (psql), you can also use as your client. 
 
 * [DB Beaver](https://dbeaver.io/download/)
 * [WorkbenchJ](https://www.sql-workbench.eu/downloads.html) 
@@ -43,37 +45,37 @@ You will need to install a client tool to connect on the Redshift Cluster. The f
 ### 3- Connecting to your Redshift Cluster
 
 On AWS console main page, go to Services and select Amazon Redshift. Alternatively, type Redshift in the search field and choose Amazon Redshift when you see in the results returned.
-In the Redshift dashboard, choose Clusters and you should see your cluster listed and the current status. Choose your cluster to access Redshift cluster details and connections information. 
+In the Redshift dashboard, choose Clusters and you should see your cluster recently created listed and the current status. Choose your cluster to access Redshift cluster details and connections information. 
 
 ![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/Redshift_WS_Console.jpg "Logo Title Text 1")
 
-Copy the endpoint details and save it to connect on the cluster and run queries. `redshiftlab.c3jaizpfphoi.us-east-1.redshift.amazonaws.com:5439`
+Copy the endpoint details and save it to connect on the cluster and run queries. The endpoint will look similar to this one `redshiftday.xxxxxxxxxx.us-east-1.redshift.amazonaws.com:5439`
 
 You may need the JDBC URL depending on the tool you are using to connect to the Redshift Cluster. Scroll down on the same page and look for JDBC URL.  
 
 JDBC URL will look similar to the JDBC URK bellow; 
-`jdbc:redshift://redshiftlab.c3jaizpfphoi.us-east-1.redshift.amazonaws.com:5439/redshiftlab`
+`jdbc:redshift://redshiftday.xxxxxxxxxx.us-east-1.redshift.amazonaws.com:5439/dev`
 
 Use the connection information you just captured to access your cluster. 
 
 Credentials to log into the Redshift cluster. 
-**Username:** rsuser 
-**Password:**  yourpassword (password was defined in the CloudFormation step.)
+**Username:** `user name` (user name you defined in the CloudFormation step.)
+**Password:**  `password` (password you defined in the CloudFormation step.)
 
 
 ### 4- Creating Tables on Redshift 
 
-This exercise you will create the tables in Redshift using the proper distribution keys for fact tables and large dimensions. These table are based on TCP-H star schema commonly used for database/data warehouse benchmarking. In the next exercise, we will use COPY command to load approximately 10GB worth of data from a S3. At the end of this exercise, you should see the following tables created in your Redshift cluster.
+In this Lab you will create the tables in the Amazon Redshift Cluster using the proper distribution keys for fact and large dimensions tables. These tables are based on TCP-H star schema, commonly used for database/data warehouse benchmarking. In the next Lab, we will use COPY command to load approximately 10GB worth of data from a S3 bucket. At the end of this Lab, you should see the following tables created in your Redshift cluster.
 
 The tables **lineitem** and **orders** contains the largest number of rows. 
 
-•	customer   
-•	lineitem  
-•	nation  
-•	orders  
-•	part  
-•	partsupp  
-•	supplier  
+•	`customer`   
+•	`lineitem`  
+•	`nation`  
+•	`orders`  
+•	`part`  
+•	`partsupp`  
+•	`supplier`  
 
 
 Please refer to the following link provided below to download the script that will be used to create the table definition for this exercise. 
@@ -82,23 +84,16 @@ Access the tables.sql file using the following s3 link.
 
 Open the file `tables.sql` using your query editor of preference. The majority of client tools provide query editor and the ability to submit the query/script to Redshift. After opening the file, examine the `CREATE TABLE` commands. You should see distribution style key for tables lineitem and orders. For all the remaining tables, the distribution style will be set to ALL as they are small dimmensions tables. 
 
-When you finish executing the `CREATE TABLE` script run, the following command to check the tables created in Redshift. Look for the columns `diststyle` for the distribution style defined for your table. 
-
-```sql
-select "table", encoded, diststyle, sortkey1, skew_sortkey1, skew_rows
-from svv_table_info
-order by 1;
-```
 ### 4- Loading Data into Redshift Cluster 
 
-You are now ready to load data into Redshift cluster. We will load approxemately 10GB worht of data from a S3 location. The bucket is in US-EAST-1 region. For better performance and avoid high cost transfer, make sure your Redshift cluster is in the same region as the S3 bucket.
+You are now ready to load data into Redshift cluster. We will load approxemately 10GB worth of data from a S3 location. The bucket is in US-EAST-1 region. For better performance and avoid high cost transfer, make sure your Redshift cluster is in the same region as the S3 bucket.
 
 Please refer to the following link provided below to download the script that will be used to load data into Redshift using the COPY command. 
 Access the copy.sql file using the following s3 link. 
 [COPY Command - copy.sql](https://s3.amazonaws.com/reinvent-hass/code/copy.sql)
 
 After downloading the `copy.sql` file, open the file using the client tool of your choice and execute the copy statements against your Redshift cluster. 
-**`Important step`**, replace 'iam_role' (COPY command example bellow) with the IAM role assigned to your Redshift cluster in all the COPY commands in your script. 
+**`Important step`**, replace 'iam_role' with the IAM role assigned to your Redshift cluster in all the COPY commands in your script. (see COPY command example bellow) 
 
 ```sql
 COPY nation FROM 's3://reinvent-hass/redshiftdata//nation/nation_'
@@ -106,14 +101,13 @@ iam_role 'arn:aws:iam::xxxxxxxxxxxx:role/MyRedshiftRole'
 gzip delimiter '|'
 IGNOREHEADER 1;
 ```
-
-If you need instructions to see how to retrieve the iam_role assigned to your redshift cluster, please refer to `Redshift IAM Roles` section. 
+If you need instructions on how to retrieve the iam_role assigned to your redshift cluster, please refer to `Redshift IAM Roles` section. 
 
 **Load times and # of rows**
 •	customer ==>  aprox 1 minute – 15M rows  
-•	lineitem ==>  aprox  10 Minutes, 600M rows  
+•	lineitem ==>  aprox  25 Minutes, 600M rows  
 •	nation;  ==>  N/A  
-•	orders;  ==>  aprox 4 minutes, 150M rows   
+•	orders;  ==>  aprox 5 minutes, 150M rows   
 •	part;    ==>  aprox 1 minute, 20M rows  
 •	partsupp; ==> aprox 3 minutes, 80M rows  
 •	supplier; ==> aprox 30 seconds, 1 rows  
@@ -122,8 +116,11 @@ If you need instructions to see how to retrieve the iam_role assigned to your re
 Execute each COPY command individually. Tables `lineitem` and `orders` will take longer. 
 You can monitor the load status by either using AWS Console or running a query on **`STV_LOAD_STATE`** table. 
 
+Connect to the Redshift Cluster using a different session while you COPY command executes to check the COPY state. 
+
 ```sql
-select slice , bytes_loaded, bytes_to_load , pct_complete from stv_load_state where query = pg_last_copy_id();
+/* Check load state */
+select query, slice ,bytes_loaded, bytes_to_load, lines, num_files,  pct_complete from stv_load_state;
 ```
 
 | slice | bytes_loaded | bytes_to_load | pct_complete 
@@ -132,12 +129,23 @@ select slice , bytes_loaded, bytes_to_load , pct_complete from stv_load_state wh
 |     3 |     12840898 |      39104640 |           32
 (2 rows)
 
+When you finish executing the `CREATE TABLE` script, execute the following command to check the tables created in Redshift. Look for the columns `diststyle` for the distribution style defined for your table. 
+
+```sql
+select "table", encoded, diststyle, sortkey1, skew_sortkey1, skew_rows
+from svv_table_info
+order by 1;
+```
+
+
+
+
 
 ### 5- Querying local tables on Redshift 
 
 First, you will execute some queries to get table definition details such as table information and distribution style define on the tables. Redshift is a Massive Parallel processing Data Warehouse System and uses multiple nodes to process the queries depending on the distribution style selected. 
 
-Run the following query to get details on the number of nodes and slices in your Redshift cluster. The Query will return details on number of nodes and slices in your Redshift Cluster. 
+Run the following query to get details on the number of nodes and slices in your Redshift cluster. The Query will return details on number of nodes and slices in your Redshift Cluster. In this Lab, you should expect a total of 4 slices. Your Amazon Redshift cluster type is dc2.xlarge with 2 compute nodes. 
 
 ```sql
 SELECT * FROM STV_SLICES;
@@ -338,7 +346,7 @@ order by segment, step;
 
 Now let's setup the Redshift Cluster to query historical Data on S3 Data Lake with Redshift Spectrum. 
 
-In this exercise, we will leverage external tables to query data that is stored in Amazon S3. The external tables are created in the AWs Glue. You also have an option to store external tables using Apache Hive Metastore. 
+In this exercise, we will leverage external tables to query data that is stored in Amazon S3. The external tables are created in the AWS Glue. You also have an option to store external tables using Apache Hive Metastore. 
 
 We will perform the following activities; 
 
@@ -350,26 +358,18 @@ We will perform the following activities;
 
 Log in to the AWS Console. On AWS console main page, go to Services and select AWS Glue or type Glue in the search field. Choose AWS Glue when you see in the results. 
 
-1 - On AWS Glue console choose Databases and Add Database option. 
+1 - On AWS Glue console choose Databases on the left-hand side and choose Add Database option. 
+2 - Please specify a Database Name and choose `Create`
 
 ![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/gluedatabase.jpg "Database Name")
 
 
 Alternatively, you can execute the following command using the client you are using to execute queries on Redshift. 
 
-```sql
-create external schema spectrum_schema from data catalog 
-database 'spectrum_db' 
-iam_role 'arn:aws:iam::123456789012:role/MySpectrumRole' --Copy the IAM role you assigned to your Redshift Cluster. 
-create external database if not exists;
-``` 
-
-If you need help finding the IAM Role assigned to your cluster, refer to the **`Redshift IAM Role`** section in this Document. 
-
 
 #### Create a clawler Job that will be used to identify tables automactically on S3.  
 
-In the AWS Glue console, choose Crawlers on the left side meny and then **`Add crawler`**
+In the AWS Glue console, choose Crawlers on the left-hand side and then **`Add crawler`**
 
 
 ![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/addcrawlerJob.jpg "Add Crawler")
@@ -670,7 +670,6 @@ order by
 	l_returnflag,
 	l_linestatus);
 ```
-
 
 
 ### 8- Redshift IAM Role
