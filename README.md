@@ -22,8 +22,9 @@ In this workshop you will learn how to launch a Redshift cluster, create tables 
 In this exercise, we will launch a Redshift Cluster in your account. Using a Cloud Formation template procided in the link bellow. For better performance and avoid cost transfer between Amazon Redshift cluster and S3, make sure you are in the US-EAST-1 region.
 
 To launch this cluster and configure security automatically using cloud formation, use the following link to launch a Redshift Cluster in your AWS account. 
-[![Launch](https://github.com/andrehass/RedshiftWorkshop/blob/master/cloudformation-launch-stack.png)](https://console.aws.amazon.com/cloudformation/home?#/stacks/new?stackName=RedshiftDay&templateURL=https://s3.amazonaws.com/reinvent-hass/code/redshiftTemplate.json)
+[![Launch](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/cloudformation-launch-stack.png)](https://console.aws.amazon.com/cloudformation/home?#/stacks/new?stackName=RedshiftDay&templateURL=https://s3.amazonaws.com/reinvent-hass/code/redshiftTemplate.json)
 On the Initial Cloud Formation page, `Create Stack` choose next. 
+
 
 On Specify Details, fill the MasterUserName and MasterUserPassword and leave all the other parameters unchanged. After providing the required parameters, choose next. 
 
