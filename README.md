@@ -37,7 +37,6 @@ In the Review, check to acknowledge the creation of IAM resources and click Crea
 ![Cloud Formation Acknowledgment](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/CloudFormationAck.jpg "Cloud Formation Acknowledgment")
 
 
-
 ### 2- Installing client tool to connect to Redshift Cluster 
 
 
@@ -149,7 +148,7 @@ order by 1;
 
 ### 5- Querying local tables on Redshift 
 
-First, you will execute some queries to get table definition details such as table information and distribution style define on the tables. Redshift is a Massive Parallel processing Data Warehouse System and uses multiple nodes to process the queries depending on the distribution style selected. 
+First, you will execute some queries to get table definition details such as table information and distribution style defined on the tables. Redshift is a Massive Parallel processing Data Warehouse and uses multiple nodes to process the queries depending on the distribution style selected. 
 
 Run the following query to get details on the number of nodes and slices in your Redshift cluster. The Query will return details on number of nodes and slices in your Redshift Cluster. In this Lab, you should expect a total of 4 slices. Your Amazon Redshift cluster type is dc2.xlarge with 2 compute nodes. 
 
@@ -189,7 +188,7 @@ and name not like 'systable%'
 group by name, stv_blocklist.slice, stv_tbl_perm.rows
 order by 3 desc;
 ```
-Please note that the tables `orders`, `lineitem`, `partsupp` were defined as distribution style key therefore, the rows are split equally across the slices on the Redshift clusters. Whereas tables `region`, `nation`, `supplier`, and `customer` were defined with distribution style all. It means there is a copy of the table on every node in the cluster. Distribution style ALL is used for small or medium dimensions that join large fact tables that are using key distribution style. 
+Please note that the tables `orders`, `lineitem`, `partsupp` were defined as distribution style key therefore, the rows are split equally across the slices on the Redshift cluster. Whereas tables `region`, `nation`, `supplier`, and `customer` were defined with distribution style all. It means there is a copy of the table on every node in the cluster. Distribution style ALL is used for small or medium dimensions that join large fact tables that are using key distribution style. 
 
 
 Now we will submit some queries on Redshift and use some of the System tables and views to track queries that are currently executing as well as query history. 
@@ -287,23 +286,6 @@ order by query desc limit 5;
 
 If you want to check on query execution metrics information, you can query the system table log **`STL_QUERY_METRICS`** which contains infomration such as,  number of rows processed, CPU usage, input/output, and disk use, for queries that have completed
 
-```SQL
-SELECT userid, 
-       service_class, 
-       query, 
-       segment, 
-       step_type, 
-       starttime, 
-       slices, 
-       rows, 
-       cpu_time, 
-       blocks_read, 
-       run_time, 
-       blocks_to_disk, 
-       query_scan_size 
-FROM   STL_QUERY_METRICS 
-```
-
 ```sql
 /* Find Top Queries by Duration, Number of reads, Memory to Disk */
 SELECT querytxt, MAX(CPU_TIME) AS cpu_time_micro, MAX(ROWS) AS ROWS, MAX(BLOCKS_READ)AS blocks_read, 
@@ -324,7 +306,8 @@ Run the a query on **`STL_QUERY`** to identify the most recent queries you have 
 ```sql
 select query, trim(querytxt) as sqlquery
 from stl_query
-order by query desc limit 5;
+where label not in ('metrics','health')
+order by query desc limit 40;
 ```
 
 |query |    sqlquery
@@ -336,6 +319,7 @@ order by query desc limit 5;
 |125 | load global dict registry
 (5 rows)
 
+Now you will run the query on svl_query_report view to get detailed query information for troubleshooting. Replace the query parameter with the query_ID you identified from the previous query. Chose a query that you recognize from previous executions. 
 
 ```sql
 select query, segment, step, max(rows), min(rows),
@@ -352,7 +336,7 @@ order by segment, step;
 
 Now let's setup the Redshift Cluster to query historical Data on S3 Data Lake with Redshift Spectrum. 
 
-In this exercise, we will leverage external tables to query data that is stored in Amazon S3. The external tables are created in the AWS Glue. You also have an option to store external tables using Apache Hive Metastore. 
+In this lab, you will leverage external tables to query data that is stored in Amazon S3 using parquet file format. The external tables are created in the AWS Glue. You also have an option to store external tables using Apache Hive Metastore. 
 
 We will perform the following activities; 
 
@@ -364,16 +348,15 @@ We will perform the following activities;
 
 Log in to the AWS Console. On AWS console main page, go to Services and select AWS Glue or type Glue in the search field. Choose AWS Glue when you see in the results. 
 
-1 - On AWS Glue console choose Databases on the left-hand side and choose Add Database option. 
+1 - On AWS Glue console choose Databases on the left-hand side and choose Add Database option.  
 2 - Please specify a Database Name and choose `Create`
 
 ![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/gluedatabase.jpg "Database Name")
 
 
-Alternatively, you can execute the following command using the client you are using to execute queries on Redshift. 
-
-
 #### Create a clawler Job that will be used to identify tables automactically on S3.  
+
+After creating the database on AWS Glue, you will create a crawler that will scan a S3 location where the parquet files were previosly stored and then create external tables automatically for you. Later these tables will be use on Amazon Redshift Spectrum. You will be able to Query tables stored on Amazon Redshift and data stored on S3 using Amazon Redshift Spectrun.  
 
 In the AWS Glue console, choose Crawlers on the left-hand side and then **`Add crawler`**
 
@@ -388,7 +371,7 @@ On Specify crawler source type, choose Data Stores
 
 ![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/crawlersource.jpg "Crawler Source")
 
-On **`Add a data store`** 
+On **`Add a data store`**  select S3 as your data store, select the option `Specified path in another account`, and specify the following path in the `Include path` s3://reinvent-hass/historical-parquet. Choose next 
 
 ![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/crawlerdatastore.jpg "Crawler Data Store")
 
@@ -417,7 +400,7 @@ Select the Job name using the check box and choose Run Crawler.
 
 ![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/runcrawler.jpg "Run crawler Job")
 
-Wait a few minutes for the crawler to read the files and build the external tables that will be used later in Redshift. 
+Wait a few minutes for the crawler to read the files and build the external tables that will be used later with Amazon Redshift Spectrum. 
 
 Notice that two tables have been added by the crawler in the database 
 
@@ -429,7 +412,7 @@ Choose Tables on the left-hand side and review the tables added. Hit the refresh
 
 Choose one of the tables to see the schema definition and properties. 
 
-On the same screen on right top corner, choose `View Partitions` to view the partitions detected by the crawler. Notice the year and month matches with the S3 partitioning using the field 0_yearmonth and the values year and month. This is hive style partitioning and it will help reduce the number of files Redshift Spectrum has to scan when querying the data lake. 
+On the same screen on right top corner, choose `View Partitions` to view the partitions detected by the crawler. Notice the year and month matches with the S3 partitioning using the field x_yearmonth and the values year and month. This is hive style partitioning and it will help reduce the number of files Redshift Spectrum has to scan when querying the data on S3. 
 
 
 ![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/partitions.jpg "Review Partitions")
@@ -452,7 +435,7 @@ SELECT s.schemaname, databasename, tablename, location, input_format FROM SVV_EX
 JOIN SVV_EXTERNAL_TABLES AS T ON S.schemaname = T.schemaname;
 ```
 
-To create the external tables, first you will need to create an external schema that will reference the tables discovered by the crawlers in AWS Glue. Execute the following command to create the external schema that will reference the external tables. 
+To create the external tables, first you will need to create an external schema that will reference the tables discovered by the crawlers in AWS Glue. Execute the following command to create the external schema that will reference the external tables. **Important step** Ensure that you specify the same database name you specified when you created the database on AWS Glue. If you are unsure, go back to AWS Console, AWS Glue and choose Databases to confirm the database name. 
 
 *** iam_role *** You will need the role arn with permission to access the files on S3. Use the steps bellow to retrieve the role arn assigned for the Redshift Cluster. 
 
@@ -531,7 +514,7 @@ AND l_discount between 0.04 - 0.01 and 0.04 + 0.01
    AND l_quantity < 24;	
 ```
 
-Now for the next Query, you will retrieve results using Redshift Spectrum and join with local tables stored in Redshift(dimensions). The tables stored in Redshift Cluster are; **nation**, **customer** and **supplier**. Tables **orders** and **lineitem** have most current data on Redshift Cluster using distribution style key so that they data is spread evenly across the nodes. Also there are external tables on schema spectrum **orders** and **lineitem** stored on S3.  
+Now for the next Query, you will retrieve results using Redshift Spectrum and join with local tables stored in Redshift(dimensions). The tables stored in Redshift Cluster are; **nation**, **customer** and **supplier**. Tables **orders** and **lineitem** have most current data on Redshift Cluster using distribution style key so that they data is spread evenly across the nodes. Historical data with the date less than 1996-01 are stored on S3 as parquet files and you will be able to access through external tables on schema spectrum **orders** and **lineitem** stored on S3.  
 
 We will create a view with UNION between local tables in Redshift and external tables in Redshift Spectrum to be able to access orders and lineitem data from both tables in Redshift and S3 with Redshift Spectrum at the same time. 
 
@@ -646,7 +629,7 @@ select
 from
 	lineitem
 where
-	l_yearmonth < ‘1994-06’
+	l_yearmonth < '1994-06'
 group by
 	l_returnflag,
 	l_linestatus
@@ -672,7 +655,7 @@ EXPLAIN (select
 from
 	lineitem
 where
-	l_yearmonth < ‘1994-06’
+	l_yearmonth < '1994-06'
 group by
 	l_returnflag,
 	l_linestatus
