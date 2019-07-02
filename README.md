@@ -22,17 +22,21 @@ In this workshop you will learn how to launch a Redshift cluster, create tables 
 In this exercise, we will launch a Redshift Cluster in your account. Using a Cloud Formation template procided in the link bellow. For better performance and avoid cost transfer between Amazon Redshift cluster and S3, make sure you are in the US-EAST-1 region.
 
 To launch this cluster and configure security automatically using cloud formation, use the following link to launch a Redshift Cluster in your AWS account. 
-[![Launch](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/cloudformation-launch-stack.png)](https://console.aws.amazon.com/cloudformation/home?#/stacks/new?stackName=RedshiftDay&templateURL=https://s3.amazonaws.com/reinvent-hass/code/redshiftTemplate.json)
+[![Launch](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/cloudformation-launch-stack.png)](https://console.aws.amazon.com/cloudformation/home?#/stacks/new?stackName=RedshiftDay&templateURL=https://s3.amazonaws.com/reinvent-hass/code/redshiftTemplate.json)  
 On the Initial Cloud Formation page, `Create Stack` choose next. 
 
 
-On Specify Details, fill the MasterUserName and MasterUserPassword and leave all the other parameters unchanged. After providing the required parameters, choose next. 
+On Specify stack details, provide a MasterUserName and MasterUserPassword of your choice. Leave all the other parameters unchanged and choose next. 
 
 ![Cloud Formation](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/CloudFormationParameter1.jpg "Cloud Formation Template")
 
-In the Options, Click Next 
+In the `Configure stack options`, Click Next 
 
-In the Review, check to acknowledge the creation of IAM resources and click create. Wait a few minutes for the cluster to become available.
+In the Review, check to acknowledge the creation of IAM resources and click Create Stack. Wait a few minutes for the cluster to become available.
+
+![Cloud Formation Acknowledgment](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/CloudFormationAck.jpg "Cloud Formation Acknowledgment")
+
+
 
 ### 2- Installing client tool to connect to Redshift Cluster 
 
