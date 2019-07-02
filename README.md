@@ -388,9 +388,11 @@ On **`Add a data store`**
 
 In the **`Add another data store`** left the option **`No`** selected and choose next: 
 
-In the **`Choose an IAM role`** choose the option **`Create an IAM role`**. Specicy the role name in the text field.  
+In the **`Choose an IAM role`** choose the option **`Create an IAM role`**. Specicy the role name in the text field.
 
 ![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/glueIAMRole.jpg "Create IAM role")
+
+On **`Create a schedule for this crawler`** choose the option **`Run on demand`** and choose **`Next`**
 
 In **`Configure the crawler's output`**, choose the Database created in the previous step and leave the other options default. Choose **`Next`** 
 
@@ -399,7 +401,7 @@ In **`Configure the crawler's output`**, choose the Database created in the prev
 In the Review all the steps, choose **`Finish`**
 
 
-On **`Create a schedule for this crawler`** choose the option **`Run on demand`** and choose **`Next`**
+
 
 
 
