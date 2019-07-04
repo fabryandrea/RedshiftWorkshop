@@ -1,12 +1,10 @@
-# LAB 2 - Creating Tables, Loading and Querying Data on Amazon Redshift
+# LAB 2 - Creating Tables and Loading Data into Amazon Redshift
 In this Lab you will create the tables in the Amazon Redshift Cluster using the proper distribution keys for fact and dimensions tables that will allow you to get the most of Massive Paralallel processing system in Amazon Redshift. 
 These tables are based on TCP-H star schema, commonly used for database/data warehouse benchmarking. In the next Lab, we will use COPY command to load approximately 10GB worth of data from a S3 bucket. At the end of this Lab, you should see the following tables created in your Redshift cluster.
 
 ## Contents
   - [Creating Tables](#creating-tables)
   - [Loading Data into Amazon Redshift](#loading-data-into-amazon-redshift)
- 
-Querying local tables on Redshift 
   
 
 ## Creating Tables
