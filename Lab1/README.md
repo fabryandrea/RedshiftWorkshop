@@ -17,7 +17,7 @@ In this exercise, we will launch a Redshift Cluster in your account. Using a Clo
 In the Cloudformation template provided, we will launch a Redshift Cluster in your account. We will also need to create resources in your account that are required for security and be able to access the cluster from a public endpoint. 
 
 Here are the following resources we will create in your account
-* 2 dc.xlarge nodes Redshift Cluster  
+* Amazon Redshift Cluster with 2 dc.xlarge nodes  
 * VPC and Subnet 
 * Security Groups for Amazon Redshift access 
 * Internet Gateway to make Amazon Redshift accessible publicy 
