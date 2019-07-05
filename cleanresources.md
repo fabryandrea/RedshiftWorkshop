@@ -1,4 +1,4 @@
-# Cleaning up AWS resources created for the Lab. 
+# Removing AWS resources created for the Lab
 
 ## Remove Cloud Formation Stack 
 
@@ -10,6 +10,5 @@ In the CloudFormation dashboard, choose Stacks and you should see a CloudFormati
 
 
 Confirm to delete the Stack and wait until it is removed completely 
-
 
 ![alt text](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/deletestack1.jpg "Delete CloudFormation Stack")
