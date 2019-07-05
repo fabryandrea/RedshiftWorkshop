@@ -1,5 +1,5 @@
 # LAB 1 - Launching a Redshift Clusters in your account using Cloud Formation. 
-In this lab you will launch a new Redshift Cluster, setup connectivity and configure a JDBC Client tool.
+In this lab you will launch a new Redshift Cluster, Install the client tool of your preference and setup connectivity to stablish a connectivity with Amazon Redshift Cluster.
 
 ## Contents
   - [Prerequisites](#Prerequisites)
@@ -7,8 +7,6 @@ In this lab you will launch a new Redshift Cluster, setup connectivity and confi
   - [Launching Redshift Cluster](#Launching-Redshift-Cluster)
   - [Installing client tool](#Installing-client-tool)
   - [Connecting to your Redshift Cluster](#Connecting-to-your-Redshift-Cluster)
-
-Connecting to your Redshift Cluster
 
 
 ## Prerequisites
@@ -19,14 +17,17 @@ In this exercise, we will launch a Redshift Cluster in your account. Using a Clo
 In the Cloudformation template provided, we will launch a Redshift Cluster in your account. We will also need to create resources in your account that are required for security and be able to access the cluster from a public endpoint. 
 
 Here are the following resources we will create in your account
-* 
-* 
-* 
-* 
+* 2 dc.xlarge nodes Redshift Cluster  
+* VPC and Subnet 
+* Security Groups for Amazon Redshift access 
+* Internet Gateway to make Amazon Redshift accessible publicy 
+* Route Table with a route to the internet
+* IAM Role that will be attached to your Amazon Redshift Cluster 
+  
 
 ## Launching Redshift Cluster
 
-Go ahead and use Cloudformation link provided to launch a Redshift Cluster in your account. you should be able the initial `Create Stack` page 
+Go ahead and use Cloudformation link provided to launch a Redshift Cluster in your account. You should be able see the initial `Create Stack` page 
 
 [![Launch](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/cloudformation-launch-stack.png)](https://console.aws.amazon.com/cloudformation/home?#/stacks/new?stackName=RedshiftDay&templateURL=https://s3.amazonaws.com/reinvent-hass/code/redshiftTemplate.json)  
 
@@ -66,6 +67,14 @@ JDBC URL will look similar to the JDBC URK bellow;
 
 Use the connection information you just captured to access your cluster. 
 
-Credentials to log into the Redshift cluster. 
-**Username:** `user name` (user name you defined in the CloudFormation step.)
+Credentials to log into the Redshift cluster.  
+
+**Username:** `user name` (user name you defined in the CloudFormation step.)  
+
 **Password:**  `password` (password you defined in the CloudFormation step.)
+
+
+You should now connect to your Amazon Redshift Cluster. You now can move to the Lab 3. 
+
+**Important** If you leave earlier or don't have plans to complete the remaining Labs. Make sure you delete the resources created in your acoount to avoid any unespected charges. Please refer to `Remove CloudFormation Stack`  for instructions on how to remove the CloudFormation Stack. 
+

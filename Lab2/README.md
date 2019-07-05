@@ -48,7 +48,7 @@ iam_role 'arn:aws:iam::xxxxxxxxxxxx:role/MyRedshiftRole'
 gzip delimiter '|'
 IGNOREHEADER 1;
 ```
-If you need instructions on how to retrieve the iam_role assigned to your redshift cluster, please refer to [`Redshift IAM Roles`](https://) section. 
+If you need instructions on how to retrieve the iam_role assigned to your redshift cluster, please refer to [`Redshift IAM Roles`](https://github.com/andrehass/RedshiftWorkshop/blob/master/IAM-role.md) section. 
 
 **Load times and # of rows**
 •	customer ==>  aprox 1 minute – 15M rows  
