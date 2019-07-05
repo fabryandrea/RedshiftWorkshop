@@ -50,15 +50,16 @@ IGNOREHEADER 1;
 ```
 If you need instructions on how to retrieve the iam_role assigned to your redshift cluster, please refer to [`Redshift IAM Roles`](https://github.com/andrehass/RedshiftWorkshop/blob/master/IAM-role.md) section. 
 
-**Load times and # of rows**
-•	customer ==>  aprox 1 minute – 15M rows  
-•	lineitem ==>  aprox  25 Minutes, 600M rows  
-•	nation;  ==>  N/A  
-•	orders;  ==>  aprox 5 minutes, 150M rows   
-•	part;    ==>  aprox 1 minute, 20M rows  
-•	partsupp; ==> aprox 3 minutes, 80M rows  
-•	supplier; ==> aprox 30 seconds, 1 rows  
-•	region;       5 records  
+**Load times and # of rows**  
+
+•	customer ==>         aprox 1 minute – 15M rows  
+•	lineitem ==>         aprox  25 Minutes, 600M rows  
+•	nation;  ==>         N/A  
+•	orders;  ==>         aprox 5 minutes, 150M rows   
+•	part;    ==>         aprox 1 minute, 20M rows  
+•	partsupp; ==>        aprox 3 minutes, 80M rows  
+•	supplier; ==>        aprox 30 seconds, 1 rows  
+•	region;   ==>        5 records  
 
 Execute each COPY command individually. Tables `lineitem` and `orders` will take longer. 
 You can monitor the load status by either using AWS Console or running a query on **`STV_LOAD_STATE`** table. 
