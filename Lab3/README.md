@@ -5,7 +5,7 @@
 ## Contents
   - [Accessing Table Metadata](#accessing-table-metadata)
   - [Distribution Styles](#distribution-styles)
-  - [Quering Redshift Cluster](#quering-redshift-cluster)
+  - [Quering Amazon Redshift](#quering-amazon-redshift)
   - [Query Performance and Troubleshooting](#query-performance-and-troubleshooting)
 
 ## Accessing Table Metadata
@@ -40,7 +40,7 @@ Query below shows the number of rows distributed across the Redshift cluster nod
 
 The query below shows the number of rows distributed across the Redshift cluster nodes and slices. For tables with distribution style key, the number of rows is distributed based on hashed values of the column selected as key.
 
-## Quering Redshift Cluster
+## Quering Amazon Redshift
 
 Now you will experiment on running some some queries in Redshift accessing the data your loaded in the previous lab. 
 
