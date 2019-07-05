@@ -1,5 +1,4 @@
 # Redshift Day at AWS Loft Workshop
-This GitHub project provides a series of lab exercises which help users get started using the Redshift platform.
 
 ## Goals
 Amazon Redshift is cloud-based modern data warehouse designed to deliver fast query performance at lowest cost possible. In this session, you will deploy a Redshift Cluster from scratch, create the table schemas using the proper distribution style so that queries can take advantage of Massive Parallel processing using multiple nodes and slices. You will load data from files stored in the S3 data lake and execute queries in your cluster. Aditionally, you will take a hands-on approach to show you how to mine your Amazon S3 data lake using open data formats with Redshift Spectrum, a feature of Redshift, without the need for unnecessary data movement. This enables you to analyze data across your data warehouse and data lake, together, with a single service.
