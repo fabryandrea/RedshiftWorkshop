@@ -92,10 +92,6 @@ Open the Redshift Client tool of your choice you installed in the previous steps
 
 You will now create the external schema on Redshift that will associate with the tables discoverd by the AWS Glue Crawler executed in the previous step. The external tables properties are kept in the AWS Glue catalog and it is integrated with Amazon Redshift and Redshift Spectrum. 
 
-For this Lab, you can use the scripts in following location to avoid COPY and PASTE. 
-[Spectrum Queries](https://s3.amazonaws.com/reinvent-hass/code/SpectrumQueries.sql)
-
-
  Execute the following query to return the external schemas and objects. We haven't created the external schema yet. The external schema creation will associate Amazon Redshift with the external catalog in AWS Glue. The result expected should be 0 rows.
 
 ```SQL
@@ -106,20 +102,20 @@ JOIN SVV_EXTERNAL_TABLES AS T ON S.schemaname = T.schemaname;
 
 To create the external tables, first you will need to create an external schema that will reference the tables discovered by the crawlers in AWS Glue. Execute the following command to create the external schema that will reference the external tables.  
 
-**Important step** Ensure that you specify the same database name you specified when you created the database on AWS Glue. If you are unsure, go back to AWS Console, AWS Glue and choose Databases to confirm the database name. 
+**Important** Ensure that you specify the same database name you specified when you created the database on AWS Glue. If you are unsure, go back to AWS Console, AWS Glue and choose Databases to confirm the database name. 
 
 *** iam_role *** You will need the role arn with permission to access the files on S3. Use the steps bellow to retrieve the role arn assigned for the Redshift Cluster. 
 
 Replace the parameters `database` and `iam_role` with the values in your enviroment.
 
-Note sure how to access the IAM role associated with your Amazon Redshift Cluster?  Access to get the steps on how to retrieve the IAM role associated with your Amazon Redshift Cluster
+Note sure how to access the IAM role associated with your Amazon Redshift Cluster?  Access to get the steps on how to retrieve the IAM role associated with your Amazon Redshift Cluster. Please access [`Redshift IAM Roles`](https://github.com/andrehass/RedshiftWorkshop/blob/master/IAM-role.md)
 
 ```SQL
 /* Create External Schema and reference Glue Database */
 create external schema spectrum
 from data catalog
-database 'reinvent2018'
-iam_role 'arn:aws:iam::219366808401:role/MyRedshiftRole'
+database 'your-glue-database-name'
+iam_role 'MyRedshiftRole'
 ``` 
 
 Now you have schema that references the tables discovered by the AWS Glue crawler in the previous steps. Execute the following query again to see the tables and schema. 
@@ -130,7 +126,7 @@ SELECT s.schemaname, databasename, tablename, location, input_format FROM SVV_EX
 JOIN SVV_EXTERNAL_TABLES AS T ON S.schemaname = T.schemaname;
 ```
 
-The files for orders and lineitem are stored using Hive style partitioning on a year/month date field. Run the following query to see the partition detected by the crawler. Notice the fields location and values match 
+The files for the external tables `orders` and `lineitem` are stored using Hive style partitioning on a year/month date field. Run the following query to see the partition detected by the crawler. Notice the fields location and values match 
 
 ```SQL 
 /* Query partitions for the external tables */ 
