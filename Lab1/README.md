@@ -46,10 +46,16 @@ In the Review, check to acknowledge the creation of IAM resources and click Crea
 
 You will need to install a client tool to be able to connect on the Redshift Cluster. The following client tools are suggested for this Lab. Please feel free to use any tool you prefer. If you are familiar with Postgres command line client tool (psql), you can also use as your client. 
 
+
+
 * [DB Beaver](https://dbeaver.io/download/)
 * [WorkbenchJ](https://www.sql-workbench.eu/downloads.html) 
 * [Aginity - Windows Only](https://www.aginity.com/main/workbench-for-amazon-redshift/)
 
+
+ You also can query the data in your Amazon Redshift cluster directly from your AWS Management console, using the new `Query Editor`. 
+
+ ![Query Editor](https://github.com/andrehass/RedshiftWorkshop/blob/master/Images/queryeditor.jpg "Query Editor")
 
 ## Connecting to your Redshift Cluster
 
